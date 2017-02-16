@@ -5,22 +5,28 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
+var campgrounds = [ 
+    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
+    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},        
+    {name: "Rocky Road", image: "http://esq.h-cdn.co/assets/15/28/980x653/gallery-1436200680-10-jumbo-rocks.jpg"}
+]
+
 app.get('/', function(req, res) {
     res.render("landing");
 });
 
 app.get('/campgrounds', function(req, res) {
-    var campgrounds = [ 
-        {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
-        {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},
-        {name: "Rocky Road", image: "http://esq.h-cdn.co/assets/15/28/980x653/gallery-1436200680-10-jumbo-rocks.jpg"}
-        ]
-        
-        res.render("campgrounds", {campgrounds, campgrounds});
+    res.render("campgrounds", {campgrounds, campgrounds});
 });
 
 app.post('/campgrounds', function(req, res) {
-    res.send("you hit the post route");
+    var name = req.body.name;
+    var image = req.body.image;
+    
+    var newCampground = {name:name, image:image};
+    campgrounds.push(newCampground);
+    
+    res.redirect("/campgrounds");
 });
 
 app.get('/campgrounds/new', function(req, res) {
