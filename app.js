@@ -8,7 +8,19 @@ app.set("view engine", "ejs");
 var campgrounds = [ 
     {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
     {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},        
-    {name: "Rocky Road", image: "http://esq.h-cdn.co/assets/15/28/980x653/gallery-1436200680-10-jumbo-rocks.jpg"}
+    {name: "Rocky Road", image: "http://esq.h-cdn.co/assets/15/28/980x653/gallery-1436200680-10-jumbo-rocks.jpg"},
+    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
+    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
+    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
+    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
+    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
+    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
+    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
+    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
+    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
+    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
+    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
+    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"}
 ]
 
 app.get('/', function(req, res) {
