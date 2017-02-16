@@ -1,0 +1,15 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "a fully functional Nodejs/Express tutorial app from the Udemy platform",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Julian Currie",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.5",
+    "express": "^4.14.1"
+  }
+}
