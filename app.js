@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+mongoose.Promise = require('bluebird');
 
 mongoose.connect("mongodb://localhost/yelp_camp");
 
@@ -9,8 +10,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String
+    name: {type: String, default: "No name"},
+    image: {type: String, default: 'http://www.iff.co.il/wp-content/uploads/thumbs/placeholder-31xgmtgz24pcdnis2ltc7e.png'}
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
@@ -37,8 +38,6 @@ app.post('/campgrounds', function(req, res) {
     }).catch(function(err){
         console.log(err);
     });
-    
-    res.redirect("/campgrounds");
 });
 
 app.get('/campgrounds/new', function(req, res) {
