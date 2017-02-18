@@ -2,37 +2,29 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-mongoose.Promise = require('bluebird');
 
 mongoose.connect("mongodb://localhost/yelp_camp");
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-var campgrounds = [ 
-    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
-    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},        
-    {name: "Rocky Road", image: "http://esq.h-cdn.co/assets/15/28/980x653/gallery-1436200680-10-jumbo-rocks.jpg"},
-    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
-    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
-    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
-    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
-    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
-    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
-    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
-    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
-    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
-    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"},   
-    {name: "Salmon Creak", image: "http://cdn-image.travelandleisure.com/sites/default/files/styles/720x450/public/1443561122/CAMPING0915-Glacier-National-Park.jpg"},
-    {name: "Marble Hill", image: "http://i.telegraph.co.uk/multimedia/archive/01653/trericket_1653323c.jpg"}
-]
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+
+var Campground = mongoose.model("Campground", campgroundSchema);
 
 app.get('/', function(req, res) {
     res.render("landing");
 });
 
 app.get('/campgrounds', function(req, res) {
-    res.render("campgrounds", {campgrounds, campgrounds});
+    Campground.find({}).then(function(savedCampgrounds) {
+        res.render("campgrounds", {campgrounds:savedCampgrounds});
+    }).catch(function(err) {
+        console.log(err);
+    });
 });
 
 app.post('/campgrounds', function(req, res) {
@@ -40,7 +32,11 @@ app.post('/campgrounds', function(req, res) {
     var image = req.body.image;
     
     var newCampground = {name:name, image:image};
-    campgrounds.push(newCampground);
+    Campground.create(newCampground).then(function(campground) {
+        res.redirect("/campgrounds");
+    }).catch(function(err){
+        console.log(err);
+    });
     
     res.redirect("/campgrounds");
 });
