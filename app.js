@@ -43,7 +43,10 @@ app.get('/campgrounds/new', function(req, res) {
 });
 
 app.get('/campgrounds/:id', function(req, res) {
-    Campground.findById(req.params.id).then(function(foundCampground) {
+    var promise = Campground.findById(req.params.id).populate("comments").exec();
+    
+    promise.then(function(foundCampground) {
+        console.log(foundCampground);
         res.render("show", {campground: foundCampground});
     }).catch(function(err) {
         console.log(err);
