@@ -54,7 +54,11 @@ app.get('/campgrounds/:id', function(req, res) {
 });
 
 app.get("/campgrounds/:id/comments/new", function(req, res) {
-    res.render("comments/new");
+    Campground.findById(req.params.id).then(function(campground) {
+        res.render("comments/new", {campground: campground});
+    }).catch(function(err) {
+        console.log(err);
+    });
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
