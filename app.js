@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
 
 app.get('/campgrounds', function(req, res) {
     Campground.find({}).then(function(savedCampgrounds) {
-        res.render("index", {campgrounds:savedCampgrounds});
+        res.render("campgrounds/index", {campgrounds:savedCampgrounds});
     }).catch(function(err) {
         console.log(err);
     });
@@ -39,7 +39,7 @@ app.post('/campgrounds', function(req, res) {
 });
 
 app.get('/campgrounds/new', function(req, res) {
-   res.render("new"); 
+   res.render("campgrounds/new"); 
 });
 
 app.get('/campgrounds/:id', function(req, res) {
@@ -47,10 +47,14 @@ app.get('/campgrounds/:id', function(req, res) {
     
     promise.then(function(foundCampground) {
         console.log(foundCampground);
-        res.render("show", {campground: foundCampground});
+        res.render("campgrounds/show", {campground: foundCampground});
     }).catch(function(err) {
         console.log(err);
     });
+});
+
+app.get("/campgrounds/:id/comments/new", function(req, res) {
+    res.render("comments/new");
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
