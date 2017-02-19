@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
 
 app.get('/campgrounds', function(req, res) {
     Campground.find({}).then(function(savedCampgrounds) {
-        res.render("campgrounds", {campgrounds:savedCampgrounds});
+        res.render("index", {campgrounds:savedCampgrounds});
     }).catch(function(err) {
         console.log(err);
     });
