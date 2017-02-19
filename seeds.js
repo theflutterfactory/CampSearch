@@ -22,16 +22,16 @@ var data = [
 function seedDB() {
     Campground.remove({}).then(function() {
         console.log("removed campgrounds!");
+        
+        data.forEach(function(seed) {
+            Campground.create(seed).then(function(data) {
+                console.log("Campground added");
+            }).catch(function(err) {
+                console.log(err);
+            });
+        });
     }).catch(function(err) {
         console.log(err); 
-    });
-    
-    data.forEach(function(seed) {
-        Campground.create(seed).then(function(data) {
-            console.log("Campground added");
-        }).catch(function(err) {
-            console.log(err);
-        });
     });
 }
 
