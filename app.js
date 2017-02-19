@@ -11,7 +11,8 @@ app.set("view engine", "ejs");
 
 var campgroundSchema = new mongoose.Schema({
     name: {type: String, default: "No name"},
-    image: {type: String, default: 'http://www.iff.co.il/wp-content/uploads/thumbs/placeholder-31xgmtgz24pcdnis2ltc7e.png'}
+    image: {type: String, default: 'http://www.iff.co.il/wp-content/uploads/thumbs/placeholder-31xgmtgz24pcdnis2ltc7e.png'},
+    description: String
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
@@ -41,7 +42,15 @@ app.post('/campgrounds', function(req, res) {
 });
 
 app.get('/campgrounds/new', function(req, res) {
-   res.render("new.ejs"); 
+   res.render("new"); 
+});
+
+app.get('/campgrounds/:id', function(req, res) {
+    Campground.findById(req.params.id).then(function(foundCampground) {
+        res.render("show", {campground: foundCampground});
+    }).catch(function(err) {
+        console.log(err);
+    });
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
