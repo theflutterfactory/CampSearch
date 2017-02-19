@@ -25,6 +25,8 @@ function seedDB() {
         console.log("removed campgrounds!");
         
         data.forEach(function(seed) {
+            console.log("Added new Campground!");
+
             Campground.create(seed).then(function(campground) {
                 Comment.create({
                         text: "This place is greate, but I wish there was internet",
