@@ -31,13 +31,18 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function(req, res, next) {
+    res.locals.currentUser = req.user;
+    next();
+});
+
 app.get('/', function(req, res) {
     res.render("landing");
 });
 
 app.get('/campgrounds', function(req, res) {
     Campground.find({}).then(function(savedCampgrounds) {
-        res.render("campgrounds/index", {campgrounds:savedCampgrounds});
+        res.render("campgrounds/index", {campgrounds: savedCampgrounds});
     }).catch(function(err) {
         console.log(err);
     });
