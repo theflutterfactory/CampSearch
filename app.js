@@ -71,7 +71,7 @@ app.get('/campgrounds/:id', function(req, res) {
     });
 });
 
-app.get('/campgrounds/:id/comments/new', function(req, res) {
+app.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res) {
     Campground.findById(req.params.id).then(function(campground) {
         res.render("comments/new", {campground: campground});
     }).catch(function(err) {
@@ -79,7 +79,7 @@ app.get('/campgrounds/:id/comments/new', function(req, res) {
     });
 });
 
-app.post('/campgrounds/:id/comments', function(req, res) {
+app.post('/campgrounds/:id/comments', isLoggedIn, function(req, res) {
     Campground.findById(req.params.id).then(function(campground) {
         Comment.create(req.body.comment).then(function(comment) {
             campground.comments.push(comment);
@@ -128,6 +128,14 @@ app.get('/logout', function(req, res) {
     req.logout();
     res.redirect("/campgrounds"); 
 });
+
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()) {
+        return next();
+    } 
+    
+    res.redirect("/login");
+}
     
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("YelpCamp server started");
