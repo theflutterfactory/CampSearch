@@ -26,6 +26,12 @@ function seedDB() {
         
         data.forEach(function(seed) {
             console.log("Added new Campground!");
+
+            Campground.create(seed).then(function(campground) {
+                campground.save();
+            }).catch(function(err) {
+                console.log(err);
+            });
         });
     }).catch(function(err) {
         console.log(err); 
