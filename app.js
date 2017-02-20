@@ -27,7 +27,7 @@ app.use(require("express-session")({
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -99,8 +99,19 @@ app.get('/register', function(req, res) {
 });
 
 app.post('/register', function(req, res) {
-    res.send("Signing you up...");
-})
+    var newUser = new User({ username: req.body.username });
+    
+    User.register(newUser, req.body.password, function(err, user) {
+        if(err) {
+            console.log(err);
+            return res.render("register");
+        }
+        
+        passport.authenticate("local")(req, res, function() {
+            res.redirect("/campgrounds");  
+        });
+    });
+});
     
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("YelpCamp server started");
