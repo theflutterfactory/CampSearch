@@ -5,8 +5,10 @@ var Campground = require("./models/campground")
 var Comment = require("./models/comment");
 var seedDB = require("./seeds");
 var mongoose = require("mongoose");
-mongoose.Promise = require('bluebird');
+var passport = require("passport");
+var LocalStrategy = require("passport-local");
 
+mongoose.Promise = require('bluebird');
 mongoose.connect("mongodb://localhost/yelp_camp");
 
 seedDB();
