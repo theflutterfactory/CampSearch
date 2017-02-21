@@ -48,7 +48,7 @@ router.get('/:id', isLoggedIn, function(req, res) {
     });
 });
 
-router.get("/:id/edit", function(req, res) {
+router.get('/:id/edit', function(req, res) {
     Campground.findById(req.params.id).then(function(foundCampground) {
         res.render("campgrounds/edit", {campground: foundCampground}); 
     }).catch(function(err) {
@@ -57,9 +57,19 @@ router.get("/:id/edit", function(req, res) {
     });
 });
 
-router.put("/:id", function(req, res) {
+router.put('/:id', function(req, res) {
+    //We are able to pass in the campground directly because we already reference the fields in edit.ejs
     Campground.findByIdAndUpdate(req.params.id, req.body.campground).then(function(updatedCampground) {
         res.redirect("/campgrounds/" + req.params.id);
+    }).catch(function(err) {
+        console.log(err);
+        res.redirect("/campgrounds");
+    });
+});
+
+router.delete('/:id', function(req, res) {
+    Campground.findByIdAndRemove(req.params.id).then(function(updatedCampground) {
+        res.redirect("/campgrounds");
     }).catch(function(err) {
         console.log(err);
         res.redirect("/campgrounds");
