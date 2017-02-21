@@ -48,6 +48,15 @@ router.get('/:id', isLoggedIn, function(req, res) {
     });
 });
 
+router.get("/:id/edit", function(req, res) {
+    Campground.findById(req.params.id).then(function(foundCampground) {
+        res.render("campgrounds/edit", {campground: foundCampground}); 
+    }).catch(function(err) {
+        console.log(err);
+        res.redirect("/campgrounds");
+    });
+});
+
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()) {
         return next();
