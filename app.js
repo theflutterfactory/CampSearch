@@ -20,8 +20,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
-seedDB();
-
 app.use(require("express-session")({
     secret: "Pikachu is highly overrated",
     resave: false,
