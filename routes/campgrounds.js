@@ -48,30 +48,21 @@ router.get('/:id', isLoggedIn, function(req, res) {
     });
 });
 
-router.get('/:id/edit', function(req, res) {
+router.get('/:id/edit', checkCampgroundOwnership, function(req, res) {
     Campground.findById(req.params.id).then(function(foundCampground) {
-        res.render("campgrounds/edit", {campground: foundCampground}); 
-    }).catch(function(err) {
-        console.log(err);
-        res.redirect("/campgrounds");
+        res.render("campgrounds/edit", {campground: foundCampground});
     });
 });
 
-router.put('/:id', function(req, res) {
+router.put('/:id', checkCampgroundOwnership, function(req, res) {
     //We are able to pass in the campground directly because we already reference the fields in edit.ejs
     Campground.findByIdAndUpdate(req.params.id, req.body.campground).then(function(updatedCampground) {
         res.redirect("/campgrounds/" + req.params.id);
-    }).catch(function(err) {
-        console.log(err);
-        res.redirect("/campgrounds");
     });
 });
 
-router.delete('/:id', function(req, res) {
+router.delete('/:id', checkCampgroundOwnership, function(req, res) {
     Campground.findByIdAndRemove(req.params.id).then(function(updatedCampground) {
-        res.redirect("/campgrounds");
-    }).catch(function(err) {
-        console.log(err);
         res.redirect("/campgrounds");
     });
 });
@@ -82,6 +73,23 @@ function isLoggedIn(req, res, next) {
     } 
     
     res.redirect("/login");
+}
+
+function checkCampgroundOwnership(req, res, next) {
+    if(req.isAuthenticated()) {
+        Campground.findById(req.params.id).then(function(foundCampground) {
+            if(foundCampground.author.id.equals(req.user._id)) {
+                next(); 
+            } else {
+                res.redirect("back");
+            }
+        }).catch(function(err) {
+            console.log(err);
+            res.redirect("back");
+        });
+    } else {
+        res.redirect("back");
+    }
 }
 
 module.exports = router;
