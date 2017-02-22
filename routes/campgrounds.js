@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Campground = require("../models/campground");
+var middleware = require("../middleware");
 
 router.get('/', function(req, res) {
     Campground.find({}).then(function(savedCampgrounds) {
@@ -33,11 +34,11 @@ router.post('/', function(req, res) {
     });
 });
 
-router.get('/new', isLoggedIn, function(req, res) {
+router.get('/new', middleware.isLoggedIn, function(req, res) {
    res.render("campgrounds/new"); 
 });
 
-router.get('/:id', isLoggedIn, function(req, res) {
+router.get('/:id', middleware.isLoggedIn, function(req, res) {
     var promise = Campground.findById(req.params.id).populate("comments").exec();
     
     promise.then(function(foundCampground) {
@@ -48,48 +49,23 @@ router.get('/:id', isLoggedIn, function(req, res) {
     });
 });
 
-router.get('/:id/edit', checkCampgroundOwnership, function(req, res) {
+router.get('/:id/edit', middleware.checkCampgroundOwnership, function(req, res) {
     Campground.findById(req.params.id).then(function(foundCampground) {
         res.render("campgrounds/edit", {campground: foundCampground});
     });
 });
 
-router.put('/:id', checkCampgroundOwnership, function(req, res) {
+router.put('/:id', middleware.checkCampgroundOwnership, function(req, res) {
     //We are able to pass in the campground directly because we already reference the fields in edit.ejs
     Campground.findByIdAndUpdate(req.params.id, req.body.campground).then(function(updatedCampground) {
         res.redirect("/campgrounds/" + req.params.id);
     });
 });
 
-router.delete('/:id', checkCampgroundOwnership, function(req, res) {
+router.delete('/:id', middleware.checkCampgroundOwnership, function(req, res) {
     Campground.findByIdAndRemove(req.params.id).then(function(updatedCampground) {
         res.redirect("/campgrounds");
     });
 });
-
-function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()) {
-        return next();
-    } 
-    
-    res.redirect("/login");
-}
-
-function checkCampgroundOwnership(req, res, next) {
-    if(req.isAuthenticated()) {
-        Campground.findById(req.params.id).then(function(foundCampground) {
-            if(foundCampground.author.id.equals(req.user._id)) {
-                next(); 
-            } else {
-                res.redirect("back");
-            }
-        }).catch(function(err) {
-            console.log(err);
-            res.redirect("back");
-        });
-    } else {
-        res.redirect("back");
-    }
-}
 
 module.exports = router;
