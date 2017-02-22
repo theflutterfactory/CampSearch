@@ -21,8 +21,10 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
             
             campground.comments.push(comment);
             campground.save();
+            req.flash("success", "Comment successfully added!");
             res.redirect('/campgrounds/' + campground._id);
         }).catch(function(err) {
+            req.flash("error", "Something went wrong");
             console.log(err);
         });
     }).catch(function(err) {
@@ -39,12 +41,14 @@ router.get('/:comment_id/edit', middleware.checkCommentOwnerShip, function(req, 
 
 router.put('/:comment_id', middleware.checkCommentOwnerShip, function(req, res) {
    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment).then(function(updatedComment) {
+       req.flash("success", "Comment Updated!");
        res.redirect("/campgrounds/" + req.params.id);
    });
 });
 
 router.delete('/:comment_id', middleware.checkCommentOwnerShip, function(req, res) {
     Comment.findByIdAndRemove(req.params.comment_id).then(function() {
+        req.flash("success", "Comment Deleted!");
         res.redirect("/campgrounds/" + req.params.id);
     });
 });
