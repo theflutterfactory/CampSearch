@@ -48,6 +48,15 @@ router.put('/:comment_id', function(req, res) {
    });
 });
 
+router.delete('/:comment_id', function(req, res) {
+    Comment.findByIdAndRemove(req.params.comment_id).then(function() {
+        res.redirect("/campgrounds/" + req.params.id);
+    }).catch(function(err) {
+        console.log(err);
+        res.redirect("back");
+    });
+});
+
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()) {
         return next();
