@@ -12,13 +12,23 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    Campground.create(req.body.campground).then(function(campground) {
-        campground.author.id = req.user._id;
-        campground.author.username = req.user.username;
-        campground.save();
-        res.redirect("/campgrounds");
-    }).catch(function(err){
-        console.log(err);
+    req.assert("campground[name]").notEmpty();
+    req.assert("campground[image]").notEmpty();
+
+    req.getValidationResult().then(function(result) {
+        if(!result.isEmpty()) {
+            req.flash("error", "A name and image are required");
+            res.redirect("campgrounds/new")
+        } else {
+            Campground.create(req.body.campground).then(function(campground) {
+                campground.author.id = req.user._id;
+                campground.author.username = req.user.username;
+                campground.save();
+                res.redirect("/campgrounds");
+            }).catch(function(err){
+                console.log(err);
+            });
+        }
     });
 });
 

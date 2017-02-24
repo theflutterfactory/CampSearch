@@ -9,7 +9,8 @@ var mongoose = require("mongoose");
 var flash = require("connect-flash");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
-var methodOverride = require("method-override")
+var methodOverride = require("method-override");
+var expressValidator = require('express-validator');
 
 var commentRoutes = require("./routes/comments");
 var campgroundRoutes = require("./routes/campgrounds");
@@ -19,6 +20,7 @@ mongoose.Promise = require('bluebird');
 mongoose.connect("mongodb://localhost/yelp_camp");
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressValidator());
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"))
