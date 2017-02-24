@@ -1,1 +1,1 @@
-# YelpCamp
+# CampSearch

@@ -1,7 +1,7 @@
 {
-  "name": "yelpcamp",
+  "name": "CampSearch",
   "version": "1.0.0",
-  "description": "a fully functional Nodejs/Express tutorial app from the Udemy platform",
+  "description": "A fully functional Nodejs/Express tutorial app. This was a great learning experience (thanks to Udemy), but I will be adding on more interesting features and UI improvements as I experiment.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
