@@ -12,22 +12,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    var name = req.body.name;
-    var image = req.body.image;
-    var description = req.body.description;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
-    }
-    
-    var newCampground = {
-        name: name, 
-        image: image, 
-        description: description, 
-        author: author
-    }
-    
-    Campground.create(newCampground).then(function(campground) {
+    Campground.create(req.body.campground).then(function(campground) {
+        campground.author.id = req.user._id;
+        campground.author.username = req.user.username;
+        campground.save();
         res.redirect("/campgrounds");
     }).catch(function(err){
         console.log(err);
