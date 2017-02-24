@@ -17,9 +17,7 @@ var campgroundRoutes = require("./routes/campgrounds");
 var indexRoutes = require("./routes/index");
 
 mongoose.Promise = require('bluebird');
-mongodb://julian:campsearch@ds161059.mlab.com:61059/campseach
-// mongoose.connect("mongodb://localhost/yelp_camp");
-mongoose.connect("mongodb://julian:campsearch@ds161059.mlab.com:61059/campseach");
+mongoose.connect(process.env.DATABASEURL);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
