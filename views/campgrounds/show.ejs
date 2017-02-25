@@ -6,8 +6,12 @@
             <p class="lead">YelpCamp</p>
             <div class="list-group">
                 <li id="image" class="list-group-item active" onclick="myFunction(this.id)">Image 1</li>
-                <li id="image2" class="list-group-item" onclick="myFunction(this.id)">Image 2</li>
-                <li id="image3" class="list-group-item" onclick="myFunction(this.id)">Image 3</li>
+                <% if(campground.image2) { %>
+                    <li id="image2" class="list-group-item" onclick="myFunction(this.id)">Image 2</li>
+                <% } %>
+                <% if(campground.image3) { %>
+                    <li id="image3" class="list-group-item" onclick="myFunction(this.id)">Image 3</li>
+                <% } %>
             </div>
         </div>
         <div class="col-md-9">
