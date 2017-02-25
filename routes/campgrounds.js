@@ -17,7 +17,7 @@ router.post('/', function(req, res) {
 
     req.getValidationResult().then(function(result) {
         if(!result.isEmpty()) {
-            req.flash("error", "A name and image are required");
+            req.flash("error", "A name and at least 1 image are required");
             res.redirect("campgrounds/new")
         } else {
             Campground.create(req.body.campground).then(function(campground) {
