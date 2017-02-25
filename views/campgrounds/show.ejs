@@ -5,14 +5,14 @@
         <div class="col-md-3">
             <p class="lead">YelpCamp</p>
             <div class="list-group">
-                <li class="list-group-item active">Image 1</li>
-                <li class="list-group-item">Image 2</li>
-                <li class="list-group-item">Image 3</li>
+                <li id="image" class="list-group-item active" onclick="myFunction(this.id)">Image 1</li>
+                <li id="image2" class="list-group-item" onclick="myFunction(this.id)">Image 2</li>
+                <li id="image3" class="list-group-item" onclick="myFunction(this.id)">Image 3</li>
             </div>
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <img class="img-responsive" src="<%= campground.image %>">
+                <img id="camp-image" class="img-responsive" src="<%= campground.image %>">
                 <div class="caption-full">
                     <% if(campground.cost) { %>
                         <h4 class="pull-right">$<%= campground.cost %>/night</h4>
@@ -62,5 +62,31 @@
         </div>
     </div>
 </div>
+
+<script>
+function myFunction(id) {
+    
+    var imageId = "camp-image";
+    
+    switch(id) {
+        case "image":
+            document.getElementById(imageId).src="<%= campground.image %>";
+            break;
+        case "image2":
+            document.getElementById(imageId).src="<%= campground.image2 %>";
+            break;
+        case "image3":
+            document.getElementById(imageId).src="<%= campground.image3 %>";
+            break;
+    }
+    
+    var current = document.querySelector('.active');
+    if (current) {
+        current.classList.remove('active');
+    }
+    document.getElementById(id).classList.add('active');
+}
+
+</script>
 
 <% include ../partials/footer %>
